@@ -37,22 +37,22 @@ module.exports = function (app, passport) {
 
 
     // ===== CATEGORY ======
-    app.route('/categorys')/*.all(isLoggedIn)*/
+    app.route('/category')/*.all(isLoggedIn)*/
         .get(categorys.list)
         .post(categorys.create);
 
-    app.route('/categorys/:id')
+    app.route('/category/:id')
         .get(categorys.get)
         .put(categorys.update)
         .delete(categorys.remove);
 
 
     // ===== PRODUCT ======
-    app.route('/products')/*.all(isLoggedIn)*/
+    app.route('/product')/*.all(isLoggedIn)*/
         .get(products.list)
         .post(products.create);
 
-    app.route('/products/:id')
+    app.route('/product/:id')
         .get(products.get)
         .put(products.update)
         .delete(products.remove);
