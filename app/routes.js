@@ -1,8 +1,7 @@
 module.exports = function (app, passport) {
 
-    var artists = require('./controllers/artist');
-    var places = require('./controllers/place');
-    var performances = require('./controllers/performance');
+    var categorys = require('./controllers/category');
+    var products = require('./controllers/product');
 
     //====== HOME PAGE ======
     app.get('/',  function (req, res) {
@@ -13,15 +12,13 @@ module.exports = function (app, passport) {
     //====== LOGIN ======
     app.route('/login')
         .get(function (req, res) {
-        res.render('login.ejs',
-            { message: req.flash('loginMessage') });
-    })
-    // process the login form
-        .post(passport.authenticate('local-login', {
-        successRedirect : '/profile',
-        failureRedirect : '/login',
-        failureFlash : true
-    }));
+            res.render('index.html');
+        })
+        // process the login form
+        .post(
+            passport.authenticate('local'),function (req, res) {
+                res.json(req.body.username);
+            });
 
 
     //====== PROFILE SECTION ======
@@ -39,38 +36,26 @@ module.exports = function (app, passport) {
     })
 
 
-    // ===== ARTISTS ======
-    app.route('/artists').all(isLoggedIn)
-        .get(artists.list)
-        .post(artists.create);
+    // ===== CATEGORY ======
+    app.route('/categorys')/*.all(isLoggedIn)*/
+        .get(categorys.list)
+        .post(categorys.create);
 
-    app.route('/artists/:id')
-        .get(artists.get)
-        .put(artists.update)
-        .delete(artists.remove);
-
-
-    // ===== PLACES ======
-    app.route('/places')/*.all(isLoggedIn)*/
-        .get(places.list)
-        .post(places.create);
-
-    app.route('/places/:id')
-        .get(places.get)
-        .put(places.update)
-        .delete(places.remove);
+    app.route('/categorys/:id')
+        .get(categorys.get)
+        .put(categorys.update)
+        .delete(categorys.remove);
 
 
-    // ===== PERFORMANCES ======
-    app.route('/performances')/*.all(isLoggedIn)*/
-        .get(performances.list)
-        .post(performances.create);
+    // ===== PRODUCT ======
+    app.route('/products')/*.all(isLoggedIn)*/
+        .get(products.list)
+        .post(products.create);
 
-    app.route('/performances/:id')
-        .get(performances.get)
-        .put(performances.update)
-        .delete(performances.remove);
-
+    app.route('/products/:id')
+        .get(products.get)
+        .put(products.update)
+        .delete(products.remove);
 
 
     //====== 404 =======

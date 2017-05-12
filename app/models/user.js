@@ -2,10 +2,8 @@ var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
 
 var userSchema = mongoose.Schema({
-    local        : {
-        login    : String,
-        password : String
-    }
+    login    : String,
+    password : String
 }, { versionKey: false });
 
 
@@ -13,10 +11,7 @@ var userSchema = mongoose.Schema({
 
 //checking if pass is valid
 userSchema.methods.validPassword = function (password) {
-    return bcrypt.compareSync(
-        password,
-        this.local.password
-    );
+    return password === this.password;
 };
 
 module.exports = mongoose.model('User', userSchema);
