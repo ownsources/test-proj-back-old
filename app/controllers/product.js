@@ -1,15 +1,9 @@
 var Product = require('../models/product');
+var Category = require('../models/category');
 var mongoose = require("mongoose");
 
 exports.list = function (req, res) {
-    Product.find()
-        .populate('category')
-        .exec(function (err, products) {
-
-            if(err) throw err;
-
-            res.json(products);
-        })
+    ////
 };
 
 exports.create = function (req, res) {
@@ -34,13 +28,19 @@ exports.create = function (req, res) {
 };
 
 exports.get = function (req, res) {
-    Product.findById(req.params.id)
-        .populate('category')
-        .exec( function (err, product) {
-            if(err) res.send(err);
 
-            res.json(product);
-        })
+    Category.findById(req.params.id, function (err, category) {
+        if(err) res.send(err);
+
+        Product.find({category})
+            .populate('category')
+            .exec( function (err, product) {
+                if(err) res.send(err);
+
+                res.json(product);
+            })
+    })
+
 };
 
 exports.update = function (req, res) {
@@ -50,7 +50,9 @@ exports.update = function (req, res) {
 
             if(err) res.send(err);
 
-            Category.findById(req.body.category.id, function (err, category) {
+            console.log(JSON.stringify(req.body));
+
+            Category.findById(req.body.category._id, function (err, category) {
                 if (err) throw err;
 
                 product.name = req.body.name;

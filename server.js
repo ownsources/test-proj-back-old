@@ -17,6 +17,12 @@ var configDB = require('./config/database.js');
 // configure
 mongoose.connect(configDB.url);
 
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+    console.log('we re connected!');
+});
+
 require('./config/passport')(passport);
 
 // express app

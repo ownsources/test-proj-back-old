@@ -32,11 +32,14 @@ exports.get = function (req, res) {
 };
 
 exports.update = function (req, res) {
+    //console.log(req.params.id);
     Category.findById(req.params.id, function (err, category) {
 
         if(err) res.send(err);
 
         else{
+            // console.log(category.name);
+            // console.log(req.body.name);
             category.name = req.body.name;
 
                 category.save(function (err) {
