@@ -28,10 +28,12 @@ exports.create = function (req, res) {
 };
 
 exports.get = function (req, res) {
+    var query = require('url').parse(req.url,true).query;
 
-    Category.findById(req.params.id, function (err, category) {
+    Category.findById(query.id, function (err, category) {
         if(err) res.send(err);
 
+        // console.log(JSON.stringify(query));
         Product.find({category})
             .populate('category')
             .exec( function (err, product) {

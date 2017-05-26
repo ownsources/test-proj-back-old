@@ -32,11 +32,10 @@ module.exports = function (app, passport) {
 
     // ===== PRODUCT ======
     app.route('/product')/*.all(isLoggedIn)*/
-        .get(products.list)
+        .get(products.get)
         .post(products.create);
 
     app.route('/product/:id')
-        .get(products.get)
         .put(products.update)
         .delete(products.remove);
 
