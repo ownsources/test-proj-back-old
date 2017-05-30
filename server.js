@@ -58,7 +58,7 @@ app.use(function (req, res, next) {
 });
 
 //routes
-require('./app/routes.js')(app, passport);
+require('./app/routes.js')(app);
 
 app.listen(port);
 console.log('port ' + port);

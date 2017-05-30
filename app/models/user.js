@@ -2,7 +2,13 @@ var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
     login    : String,
-    password : String
+    password : String,
+    card: Number,
+    role: String,
+    purchase: [{
+        date: String,
+        products: [{type: mongoose.Schema.Types.ObjectId, ref: 'Product'}]
+    }]
 }, { versionKey: false });
 
 

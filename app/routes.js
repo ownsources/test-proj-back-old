@@ -1,23 +1,26 @@
-module.exports = function (app, passport) {
+var categorys   = require('./controllers/category');
+var products    = require('./controllers/product');
+var user        = require("./controllers/user");
 
-    var categorys = require('./controllers/category');
-    var products = require('./controllers/product');
+var jwToken     = require("./services/jsToken");
 
+module.exports = function (app) {
 
-    //====== LOGIN ======
+    app.route('/register')
+        .post(user.register);
+
     app.route('/login')
-        .post(
-            passport.authenticate('local'),function (req, res) {
-                res.json(req.body.username);
-            });
+        .post(user.login);
 
+    app.route('/history/:token')
+        .get(user.history);
 
     //====== LOGOUT ======
-    app.get('/logout', function (req, res) {
-        req.logout();
-        res.redirect('/');
-    })
+    app.route('/logout')
+        .post(user.logout);
 
+    app.route('/user/purchase')
+        .put(user.purchase);
 
     // ===== CATEGORY ======
     app.route('/category')/*.all(isLoggedIn)*/
@@ -31,20 +34,19 @@ module.exports = function (app, passport) {
 
 
     // ===== PRODUCT ======
-    app.route('/product')/*.all(isLoggedIn)*/
+    app.route('/product/:token')/*.all(isLoggedIn)*/
         .get(products.get)
         .post(products.create);
 
-    app.route('/product/:id')
+    app.route('/product/:token/:id')
         .put(products.update)
         .delete(products.remove);
 
 };
 
-function isLoggedIn(req, res, next){
-
-    if(req.isAuthenticated())
-        return next();
-
-    res.redirect('/');
+function isLoggedIn(req, res, next) {
+    jwToken.verifyToken(req.params.token, function (err, decoded) {
+        if (err || !decoded) return {err: 'Что-то с токеном'};
+        else return next();
+    })
 }
