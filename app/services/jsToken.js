@@ -9,7 +9,7 @@ module.exports= {
         return jwt.sign(payload, tokenSecret, {expiresIn: '1 day'});
     },
 
-        verifyToken(token, callback) {
+    verifyToken(token, callback) {
         return jwt.verify(token, tokenSecret, callback);
     },
 };
