@@ -34,7 +34,7 @@ module.exports = function (app) {
 
 
     // ===== PRODUCT ======
-    app.route('/product/:token')/*.all(isLoggedIn)*/
+    app.route('/product/')/*.all(isLoggedIn)*///:token
         .get(products.get)
         .post(products.create);
 
