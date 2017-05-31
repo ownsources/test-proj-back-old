@@ -7,7 +7,7 @@ var userSchema = mongoose.Schema({
     role: String,
     purchase: [{
         date: String,
-        products: [{type: mongoose.Schema.Types.ObjectId, ref: 'Product'}]
+        products: String
     }]
 }, { versionKey: false });
 

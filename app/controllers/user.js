@@ -39,14 +39,17 @@ exports.history = function (req, res) {
 };
 
 exports.purchase = function(req,res){
-        User.findOne({card: req.body.map.card}, function (err, user) {
+        User.findOne({card: req.body.card}, function (err, user) {
             if (err) return res.json(err);
             if (!user) return res.json({err: 'No user found'});
 
-            user.purchase = {
-                date: req.body.map.date,
-                products: req.body.map.products
-            };
+
+            console.log(JSON.stringify(req.body));
+            user.purchase.push({
+                date: req.body.date,
+                products: req.body.products
+            });
+
 
             user.save(function (err) {
                 if (err) res.json(err);
