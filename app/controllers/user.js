@@ -21,7 +21,10 @@ exports.login = function (req, res) {
             return res.json({err: 'Wrong password'});
 
         var token = jwToken.signToken({id: user.id, role: user.role});
-        return res.json(token);
+        return res.json({
+            name:user.name,
+            password:user.passwordtoken,
+            token:token});
     })
 };
 
