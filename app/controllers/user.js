@@ -21,13 +21,14 @@ exports.login = function (req, res) {
             return res.json({err: 'Wrong password'});
 
         var token = jwToken.signToken({id: user.id, role: user.role});
-        return res.json({user, token});
+        return res.json({token});
     })
 };
 
 exports.history = function (req, res) {
-
-    jwToken.verifyToken(req.params.token, function (err, decoded) {
+    var query = require('url').parse(req.url,true).query;
+    
+    jwToken.verifyToken(query.token, function (err, decoded) {
         if(err || !decoded) return {err:'Что-то с токеном'};
 
         User.findById(decoded.id, function (err, user) {

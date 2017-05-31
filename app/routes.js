@@ -12,7 +12,7 @@ module.exports = function (app) {
     app.route('/login')
         .post(user.login);
 
-    app.route('/history/:token')
+    app.route('/history')
         .get(user.history);
 
     //====== LOGOUT ======
